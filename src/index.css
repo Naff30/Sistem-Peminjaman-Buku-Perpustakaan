@@ -1,0 +1,217 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * Keep every @import in this top block. Font dimuat lewat <link> di index.html.
+ */
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ------------------------------------------------------------------ */
+/* Design system: Perpustakaan (biru & putih)                          */
+/* ------------------------------------------------------------------ */
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --shadow-card: var(--shadow-card-value);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-soft: var(--warning-soft);
+  --color-overlay: var(--overlay);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(0.982 0.006 250);
+  --foreground: oklch(0.24 0.04 262);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.04 262);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.04 262);
+  --primary: oklch(0.53 0.2 260);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-soft: oklch(0.95 0.03 255);
+  --secondary: oklch(0.95 0.02 255);
+  --secondary-foreground: oklch(0.35 0.1 260);
+  --muted: oklch(0.965 0.008 250);
+  --muted-foreground: oklch(0.52 0.03 258);
+  --accent: oklch(0.945 0.03 255);
+  --accent-foreground: oklch(0.42 0.17 260);
+  --destructive: oklch(0.57 0.21 27);
+  --destructive-foreground: oklch(0.99 0 0);
+  --destructive-soft: oklch(0.955 0.03 25);
+  --success: oklch(0.55 0.14 155);
+  --success-foreground: oklch(0.99 0 0);
+  --success-soft: oklch(0.95 0.05 155);
+  --warning: oklch(0.75 0.15 75);
+  --warning-foreground: oklch(0.42 0.1 60);
+  --warning-soft: oklch(0.96 0.06 85);
+  --overlay: oklch(0.2 0.05 262 / 55%);
+  --border: oklch(0.92 0.012 255);
+  --input: oklch(0.88 0.015 255);
+  --ring: oklch(0.53 0.2 260);
+  --sidebar: oklch(0.31 0.11 262);
+  --sidebar-foreground: oklch(0.97 0.01 255);
+  --sidebar-muted: oklch(0.78 0.05 258);
+  --sidebar-accent: oklch(0.4 0.14 261);
+  --sidebar-accent-foreground: oklch(0.99 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --shadow-card-value: 0 1px 2px oklch(0.3 0.05 260 / 6%), 0 4px 16px -8px oklch(0.3 0.08 260 / 12%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Komponen dasar                                                      */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn svg {
+    @apply size-4 shrink-0;
+  }
+  .btn-sm {
+    @apply gap-1.5 px-2.5 py-1.5 text-xs;
+  }
+  .btn-sm svg {
+    @apply size-3.5;
+  }
+  .btn-primary {
+    @apply bg-primary text-primary-foreground shadow-sm hover:bg-primary/90;
+  }
+  .btn-outline {
+    @apply border border-input bg-card text-foreground hover:bg-accent hover:text-accent-foreground;
+  }
+  .btn-soft {
+    @apply bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground;
+  }
+  .btn-danger {
+    @apply bg-destructive text-destructive-foreground hover:bg-destructive/90;
+  }
+  .btn-danger-soft {
+    @apply bg-destructive-soft text-destructive hover:bg-destructive hover:text-destructive-foreground;
+  }
+  .btn-success {
+    @apply bg-success text-success-foreground hover:bg-success/90;
+  }
+  .btn-icon {
+    @apply inline-flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground transition-colors placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/25 disabled:bg-muted disabled:text-muted-foreground;
+  }
+  .input[aria-invalid="true"] {
+    @apply border-destructive focus:ring-destructive/25;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-foreground;
+  }
+  .field-error {
+    @apply mt-1 text-xs font-medium text-destructive;
+  }
+  .field-hint {
+    @apply mt-1 text-xs text-muted-foreground;
+  }
+
+  .panel {
+    @apply rounded-xl border border-border bg-card shadow-card;
+  }
+  .panel-header {
+    @apply flex flex-col gap-3 border-b border-border px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5;
+  }
+  .panel-title {
+    @apply text-base font-semibold text-foreground;
+  }
+  .panel-subtitle {
+    @apply text-sm text-muted-foreground;
+  }
+
+  .data-table {
+    @apply w-full text-left text-sm;
+  }
+  .data-table th {
+    @apply whitespace-nowrap bg-muted px-4 py-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground;
+  }
+  .data-table td {
+    @apply border-t border-border px-4 py-3 align-middle;
+  }
+  .data-table tbody tr {
+    @apply transition-colors hover:bg-muted/60;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .badge-success {
+    @apply bg-success-soft text-success;
+  }
+  .badge-warning {
+    @apply bg-warning-soft text-warning-foreground;
+  }
+  .badge-danger {
+    @apply bg-destructive-soft text-destructive;
+  }
+  .badge-info {
+    @apply bg-accent text-accent-foreground;
+  }
+  .badge-muted {
+    @apply bg-muted text-muted-foreground;
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 z-50 flex items-end justify-center bg-overlay sm:items-center sm:p-4 animate-in fade-in;
+  }
+  .modal-panel {
+    @apply max-h-[92vh] w-full overflow-y-auto rounded-t-2xl bg-card shadow-xl sm:rounded-2xl animate-in fade-in slide-in-from-bottom-4;
+  }
+}

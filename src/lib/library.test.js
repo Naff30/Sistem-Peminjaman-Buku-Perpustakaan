@@ -166,3 +166,51 @@ describe("Dashboard & penyimpanan", () => {
     expect(r.books.length).toBeGreaterThan(0);
   });
 });
+
+describe("Pengujian kondisi batas & validasi tambahan", () => {
+  it("menerima stok 0 dan stok 10000 (valid), menolak stok 10001", () => {
+    // Stok 0 (valid)
+    const res0 = addBook([], { ...newBookInput, id: "BK101", stock: "0" });
+    expect(res0.ok).toBe(true);
+    expect(res0.books[0].stock).toBe(0);
+
+    // Stok 10000 (valid batas atas)
+    const res10k = addBook([], { ...newBookInput, id: "BK102", stock: "10000" });
+    expect(res10k.ok).toBe(true);
+    expect(res10k.books[0].stock).toBe(10000);
+
+    // Stok 10001 (ditolak)
+    const res10k1 = addBook([], { ...newBookInput, id: "BK103", stock: "10001" });
+    expect(res10k1.ok).toBe(false);
+    expect(res10k1.errors.stock).toBe("Jumlah stok maksimal 10000.");
+  });
+
+  it("menerima tahun 1000 (valid batas bawah) dan menolak tahun 999", () => {
+    // Tahun 1000 (valid)
+    const res1000 = addBook([], { ...newBookInput, id: "BK201", year: "1000" });
+    expect(res1000.ok).toBe(true);
+    expect(res1000.books[0].year).toBe(1000);
+
+    // Tahun 999 (ditolak)
+    const currentYear = new Date().getFullYear();
+    const res999 = addBook([], { ...newBookInput, id: "BK202", year: "999" });
+    expect(res999.ok).toBe(false);
+    expect(res999.errors.year).toBe(`Tahun terbit harus antara 1000 dan ${currentYear}.`);
+  });
+
+  it("menolak nama peminjam yang hanya berisi spasi (dianggap kosong)", () => {
+    const r = borrowBook([book()], [], borrowInput({ borrowerName: "     " }));
+    expect(r.ok).toBe(false);
+    expect(r.errors.borrowerName).toBe("Nama peminjam wajib diisi.");
+  });
+
+  it("menolak peminjaman judul yang sama oleh peminjam yang sama dua kali sebelum dikembalikan", () => {
+    const existingBook = book({ id: "BK001", stock: 5 });
+    const firstBorrow = borrowBook([existingBook], [], borrowInput({ borrowerName: "Budi Santoso", bookId: "BK001" }));
+    expect(firstBorrow.ok).toBe(true);
+
+    const secondBorrow = borrowBook(firstBorrow.books, firstBorrow.transactions, borrowInput({ borrowerName: "Budi Santoso", bookId: "BK001" }));
+    expect(secondBorrow.ok).toBe(false);
+    expect(secondBorrow.errors.bookId).toBe("Budi Santoso masih meminjam buku ini dan belum mengembalikannya.");
+  });
+});
